@@ -1,0 +1,147 @@
+html<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة النقر مع المهام</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .balance-container {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .coin-btn {
+            background: none;
+            border: none;
+            margin-top: 40px;
+            cursor: pointer;
+            outline: none;
+        }
+        .coin-btn img {
+            width: 180px;
+            height: 180px;
+            transition: transform 0.1s ease;
+        }
+        .coin-btn img:active {
+            transform: scale(0.9);
+        }
+        /* تصميم قسم المهام اليومية */
+        .tasks-container {
+            margin-top: 40px;
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: right;
+            direction: rtl;
+        }
+        .task-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .task-info {
+            font-size: 14px;
+        }
+        .task-info span {
+            color: #ffca28;
+            font-weight: bold;
+        }
+        .task-btn {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .task-btn.claimed {
+            background-color: #4caf50;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="balance-container">
+        🪙 <span id="score">0</span>
+    </div>
+
+    <!-- زر النقر -->
+    <button class="coin-btn" id="clicker">
+        <img src="https://coingecko.com" alt="Coin">
+    </button>
+
+    <!-- قسم المهام اليومية -->
+    <div class="tasks-container">
+        <div class="task-title">📋 المهام اليومية والمكافآت</div>
+        
+        <div class="task-item">
+            <div class="task-info">
+                <div>الاشتراك في قناة المطور وتفعيل التنبيهات</div>
+                <span>💰 +5000 نقطة</span>
+            </div>
+            <button class="task-btn" id="task1-btn" onclick="doTask()">ابدأ المهمة</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let isTaskDone = false; // متغير لمعرفة هل تم إنهاء المهمة أم لا
+        
+        const scoreDisplay = document.getElementById('score');
+        const clickerButton = document.getElementById('clicker');
+        const taskButton = document.getElementById('task1-btn');
+
+        // كود زيادة النقاط بالنقر
+        clickerButton.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = score;
+        });
+
+        // كود تشغيل ونظام المهمة اليومية
+        function doTask() {
+            if (isTaskDone) return; // إذا تم أخذ الجائزة سابقاً لا تفعل شيء
+
+            if (taskButton.textContent === "ابدأ المهمة") {
+                // فتح رابط قناتك أو أي رابط يوتيوب/تليغرام يريده العميل
+                window.open("https://t.me", "_blank");
+                
+                // تغيير نص الزر ليطلب من اللاعب استلام مكافأته
+                taskButton.textContent = "استلام المكافأة 🎁";
+                taskButton.style.backgroundColor = "#ff9800";
+            } 
+            else if (taskButton.textContent === "استلام المكافأة 🎁") {
+                // إضافة الـ 5000 نقطة للمجموع
+                score += 5000;
+                scoreDisplay.textContent = score;
+                
+                // قفل الزر وتغيير شكله ليدل على الاكتمال
+                isTaskDone = true;
+                taskButton.textContent = "مكتملة ✓";
+                taskButton.className = "task-btn claimed";
+            }
+        }
+    </script>
+
+</body>
+  </html>
